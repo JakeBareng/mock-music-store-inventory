@@ -7,9 +7,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 const categoryRouter = require('./routes/category')
 const itemRouter = require('./routes/item')
+const mongoose = require('mongoose')
+require('dotenv').config()
 
 var app = express();
-
+mongoose.connect(process.env.URI)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -19,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended:true}))
 
 app.use('/', indexRouter);
 app.use('/category', categoryRouter)

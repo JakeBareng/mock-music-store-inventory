@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    a(href="/item/create") add item
+    ul
+    each item in items 
+        li
+            div 
+                p=item.name 
+                p=item.description 
+                p=item.price 
+                p=item.stock
+                ul 
+                each category in item.categories 
+                    a(href=category.url)=category.name 
+    else
+        li There are no items in the inventory
+

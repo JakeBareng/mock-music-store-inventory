@@ -4,11 +4,11 @@ const categoryController = require('../controller/categoryController')
 
 router.get('/', categoryController.category_list)
 
-router.get('/:id', categoryController.category_detail)
-
 router.get('/create', categoryController.category_create_get)
 
 router.post('/create', categoryController.category_create_post)
+
+router.get('/:id', categoryController.category_detail)
 
 router.get('/:id/update', categoryController.category_update_get)
 

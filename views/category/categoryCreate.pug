@@ -1,0 +1,12 @@
+extends ../layout 
+
+block content
+    h1=title
+    form(action="/category/create", method="post")
+        label(for="fname")
+        input#fname(type="text", name="name")
+        button(type="submit") submit
+    ul
+        if errors
+            each error in errors 
+                li=error.msg

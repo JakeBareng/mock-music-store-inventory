@@ -6,7 +6,7 @@ const item = new Schema({
     description: { type: String, required:true},
     price: { type: mongoose.Types.Decimal128, required: true },
     stock: { type: Number , required:true},
-    category: [{type: Schema.Types.ObjectId, ref: "Category"}]
+    categories: [{type: Schema.Types.ObjectId, ref: "Category"}]
 })
 
 item.virtual("url").get(() => {
