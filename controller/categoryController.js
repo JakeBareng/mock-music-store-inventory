@@ -4,11 +4,13 @@ const tryCatch = require("../util/trycatch")
 const { body, validationResult } = require('express-validator');
 
 let category_list = tryCatch (async(req, res, next) => {
-    const categories = await Category.find().exec();
+    const categories = await Category.find().populate().exec();
+    console.log(categories[0].url);
     res.render('category/categoryList',{categories})
 })
 let category_detail = tryCatch (async(req, res, next) => {
-
+    const category = await Category.findById(req.params.id).exec();
+    res.render('category/categoryDetail',{title: "Category Details",category})
 })
 let category_create_get = tryCatch (async(req, res, next) => {
     res.render('category/categoryCreate',{title:"create new category"});

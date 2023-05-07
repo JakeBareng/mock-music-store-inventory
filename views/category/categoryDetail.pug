@@ -1,0 +1,12 @@
+extends ../layout 
+
+block content
+    h1=title
+    if category
+        h3=`category name: ${category.name}`
+        hr
+        a(href=`${category.url}/update`) update 
+        br
+        a(href=`${category.url}/delete`) delete 
+    else
+        p category does not exist

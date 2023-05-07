@@ -2,10 +2,9 @@ extends ../layout
 
 block content
     a(href="/category/create") create new category 
-    if categories.length > 1 
-        ul
-            each category in categories 
-                li
-                    a(href=`/category/${category._id}`)=category.name
-    else 
-        p there exist no categories
+    ul
+        each category in categories 
+            li
+                a(href=category.url)=category.name
+        else 
+            p there exist no category

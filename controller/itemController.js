@@ -6,14 +6,14 @@ const { body, validationResult } = require('express-validator');
 
 let item_list = tryCatch (async(req,res,next) => {
     //get all items
-    let items = await Item.find().populate("categories").exec();
+    let items = await Item.find().populate("category").exec();
     res.render("item/itemList",{
         items
     })
 })
 
 let item_detail = tryCatch (async(req,res,next) => {
-    let item = await Item.findById(req.params.id).populate("categories").exec();
+    let item = await Item.findById(req.params.id).populate("category").exec();
     if (!item) {
         throw new Error("item does not exist")
     }
@@ -24,8 +24,8 @@ let item_detail = tryCatch (async(req,res,next) => {
 })
 
 let item_create_get = tryCatch (async(req,res,next) => {
-    let categories = await Category.find();
-    res.render("item/itemCreate",{categories});
+    let category = await Category.find();
+    res.render("item/itemCreate",{category});
 })
 
 let item_create_post = [
@@ -59,9 +59,9 @@ let item_create_post = [
     tryCatch(async(req,res,next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            let categories = await Category.find();
+            let category = await Category.find();
             console.log(errors);
-            res.render("item/itemCreate",{categories,errors:errors.array()});
+            res.render("item/itemCreate",{category,errors:errors.array()});
         }
         else {
             // todo : save and redirect

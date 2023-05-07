@@ -11,7 +11,7 @@ block content
                 p=item.price 
                 p=item.stock
                 ul 
-                each category in item.categories 
+                each category in item.category 
                     a(href=category.url)=category.name 
     else
         li There are no items in the inventory

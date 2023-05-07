@@ -6,12 +6,12 @@ const item = new Schema({
     description: { type: String, required:true},
     price: { type: mongoose.Types.Decimal128, required: true },
     stock: { type: Number , required:true},
-    categories: [{type: Schema.Types.ObjectId, ref: "Category"}]
+    category: [{type: Schema.Types.ObjectId, ref: "Category"}]
 })
 
-item.virtual("url").get(() => {
+item.virtual("url").get(function () {
     return `/item/${this._id}` 
 })
 
-const Item = mongoose.model('Item', item);
+const Item = mongoose.model('Item', item, "item");
 module.exports = Item;
