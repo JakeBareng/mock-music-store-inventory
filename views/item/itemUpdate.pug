@@ -1,0 +1,24 @@
+extends ../layout 
+
+block content
+    form(action=`${item.url}/update`, method="post")
+        label(for="fname" ) name:
+        input#fname(type="text" name="name" value=item.name placeholder=item.name)
+        label(for="fdescription") description: 
+        input#fdescription(type="text" name="description" placeholder=item.description value=item.description)
+        label(for="fprice") price: 
+        input#fprice(type="text" name="price" placeholder=item.price value=item.price)
+        label(for="fstock") stock: 
+        input#fstock(type="number" min=0 name="stock" placeholder=item.stock value=item.stock)
+        if categories
+            for category in categories
+                div(style='display: inline; padding-right:10px;')
+                input.checkbox-input(type='checkbox', name='category', id=category._id, value=category._id, checked=category.checked)
+                label(for=category._id) #{category.name} 
+        else
+            p no categories exists 
+        button(type="submit") submit
+    if errors
+        ul
+            for error in errors
+                li= error.msg

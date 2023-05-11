@@ -34,16 +34,42 @@ let category_create_post = [
     })
 ]
 let category_update_get = tryCatch (async(req, res, next) => {
-
+    const id = req.params.id;
+    const category = await Category.findById(id).exec();
+    res.render("category/categoryUpdate",{
+        name:category.name,
+        url:category.url
+    })
 })
-let category_update_post = tryCatch (async(req, res, next) => {
-
-})
+let category_update_post = [
+    body(["name"],"name cannot be empty")
+    .isLength({min:1})
+    .trim()
+    .escape()
+    ,
+    tryCatch (async(req, res, next) => {
+        const id = req.params.id;
+        await Category.findByIdAndUpdate(id,{name:req.body.name});
+        res.redirect("/category");
+    })
+]
 let category_delete_get = tryCatch (async(req, res, next) => {
-
+    const id = req.params.id;
+    const category = await Category.findById(id).exec();
+    if (!category){throw new Error("category not found")}
+    res.render("category/categoryDelete", { 
+        name:category.name,
+        url:category.url
+    })
 })
 let category_delete_post = tryCatch (async(req, res, next) => {
-
+    const id = req.params.id;
+    const category = await Category.findById(id).exec();
+    if (!category){throw new Error("category not found")}
+    else {
+        await Category.findByIdAndDelete(id)
+        res.redirect("/category")
+    }
 })
 module.exports = {
     category_list,

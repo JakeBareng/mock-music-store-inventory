@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const item = new Schema({
-    name: { type: String, required:true , minLength: 3},
+    name: { type: String, required:true , minLength: 1},
     description: { type: String, required:true},
-    price: { type: mongoose.Types.Decimal128, required: true },
+    price: { type: String, required: true },
     stock: { type: Number , required:true},
     category: [{type: Schema.Types.ObjectId, ref: "Category"}]
 })

@@ -1,0 +1,8 @@
+extends ../layout 
+
+block content
+    h1 update category: #{name}
+    form(action=`${url}/update`, method="post") 
+        input#fname(type="text", name="name" value=name ) 
+        button(type="submit") update
+    

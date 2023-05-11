@@ -1,0 +1,18 @@
+extends ../layout 
+
+block content 
+    h1=title 
+    p.item-price price: $#{price} 
+    p.item-description description: #{description}
+    p.item-stock stock: #{stock}
+    h3 Categories
+    ul 
+    if categories 
+        each category in categories
+            a(href=category.url)  
+                li=category.name
+    hr
+    a(href=`${url}/update`) update 
+    br
+    a(href=`${url}/delete`) delete 
+                

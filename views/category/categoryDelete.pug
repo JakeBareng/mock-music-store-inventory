@@ -1,0 +1,7 @@
+extends ../layout 
+
+block content
+    h1 delete category: #{name}
+    h3 delete the current category?
+    form(action=`${url}/delete`, method="post")
+        button(type="submit") delete

@@ -17,15 +17,21 @@ let item_detail = tryCatch (async(req,res,next) => {
     if (!item) {
         throw new Error("item does not exist")
     }
-    res.render("item_detail",{
-        item
+    res.render("item/itemDetail",{
+        title:`Item: ${item.name}`,
+        name:item.name,
+        price:item.price,
+        description:item.description,
+        stock:item.stock,
+        categories:item.category,
+        url:item.url
     })
     
 })
 
 let item_create_get = tryCatch (async(req,res,next) => {
-    let category = await Category.find();
-    res.render("item/itemCreate",{category});
+    let categories = await Category.find().exec();
+    res.render("item/itemCreate",{categories});
 })
 
 let item_create_post = [
@@ -64,7 +70,18 @@ let item_create_post = [
             res.render("item/itemCreate",{category,errors:errors.array()});
         }
         else {
-            // todo : save and redirect
+            if (!(req.body.category instanceof Array)) {
+                if (typeof req.body.category === "undefined") req.body.category = [];
+                else req.body.category = new Array(req.body.category);
+            }
+            const item = new Item({
+                name: req.body.name,
+                description: req.body.description,
+                price: req.body.price,
+                stock: req.body.stock,
+                category: req.body.category,
+            })
+            await item.save();
             res.redirect('/item')
         }
 
@@ -72,10 +89,67 @@ let item_create_post = [
 ] 
 
 let item_update_get = tryCatch (async(req,res,next) => {
+    const item = await Item.findById(req.params.id).exec()
+    const categories = await Category.find().exec()
+    res.render("item/itemUpdate", {
+        item,
+        categories
+    })
 })
 
-let item_update_post = tryCatch (async(req,res,next) => {
-})
+let item_update_post = [
+    body(["name"],"name must be greater than 2 and must not be empty")
+    .isLength({min:2})
+    .escape()
+    .trim(),
+
+    body(["description"],"description must be greater than 2 and must not be empty")
+    .isLength({min:2})
+    .escape()
+    .trim()
+    ,
+
+    body(["stock"],"stock is not a non negative number")
+    .isInt({min:0})
+    .escape(),
+
+    body(["price"],"price is not valid")
+    .escape()
+    .isCurrency({
+        symbol: "",
+        require_symbol: false,
+        allow_negatives: false,
+        decimal_separator: ".",
+        thousands_separator: ",",
+        digits_after_decimal: [0,1,2]
+    })
+    .trim(),
+
+    tryCatch(async(req,res,next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const category = await Category.find();
+            const item = await Item.findById(req.params.id);
+            console.log(errors);
+            res.render("item/itemUpdate",{item,category,errors:errors.array()});
+        }
+        else {
+            if (!(req.body.category instanceof Array)) {
+                if (typeof req.body.category === "undefined") req.body.category = [];
+                else req.body.category = new Array(req.body.category);
+            }
+            await Item.findByIdAndUpdate(req.params.id,{
+                name: req.body.name,
+                description: req.body.description,
+                price: req.body.price,
+                stock: req.body.stock,
+                category: req.body.category,
+            })
+            res.redirect('/item')
+        }
+
+    })
+] 
 
 let item_delete_get = tryCatch (async(req,res,next) => {
 })

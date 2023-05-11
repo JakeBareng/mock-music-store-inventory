@@ -3,16 +3,12 @@ extends ../layout
 block content
     a(href="/item/create") add item
     ul
-    each item in items 
-        li
-            div 
-                p=item.name 
-                p=item.description 
-                p=item.price 
-                p=item.stock
-                ul 
-                each category in item.category 
-                    a(href=category.url)=category.name 
+    each item in items
+            li
+                a(href=item.url)
+                    div 
+                        p.item-name=item.name 
+                        p.item-price=item.price 
     else
         li There are no items in the inventory
 
