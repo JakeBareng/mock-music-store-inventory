@@ -152,11 +152,23 @@ let item_update_post = [
 ] 
 
 let item_delete_get = tryCatch (async(req,res,next) => {
+    const item = await Item.findById(req.params.id).exec();
+    if (!item) {
+        throw new Error("item not found");
+    }
+    
+    res.render("item/itemDelete",{item})
 })
 
 
 let item_delete_post = tryCatch (async(req,res,next) => {
-    
+    const item = await Item.findById(req.params.id).exec;
+    if (!item) {
+        throw new Error("item not found");
+    }
+
+    await Item.findByIdAndDelete(req.params.id);
+    res.redirect("/item")
 })
 
 module.exports = {

@@ -1,0 +1,7 @@
+extends ../layout 
+
+block content
+    h1 delete item: #{item.name}
+    h3 delete the current item?
+    form(action=`${item.url}/delete`, method="post")
+        button(type="submit") delete
